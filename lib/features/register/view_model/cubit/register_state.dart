@@ -12,7 +12,7 @@ final class LoadingRegisterState extends RegisterState {}
 final class SuccessfullyRegisterState extends RegisterState {
   final bool status;
   final String message;
-  SuccessfullyRegisterState({required this.message, required this.status , });
+  SuccessfullyRegisterState({required this.message, required this.status});
 }
 
 final class ErrorRegisterState extends RegisterState {

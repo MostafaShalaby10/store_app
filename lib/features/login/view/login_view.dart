@@ -1,16 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_app/core/widgets/custom_button_widget.dart';
-import 'package:shop_app/core/widgets/custom_text_form_field.dart';
-import 'package:shop_app/core/widgets/custom_text_widget.dart';
-import 'package:shop_app/features/login/model/repos/login_repo_imp.dart';
-import 'package:shop_app/features/login/view_model/cubit/login_cubit.dart';
-
 import '../../../core/utilis/service_locator.dart';
+import '../../../core/widgets/custom_button_widget.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
+import '../../../core/widgets/custom_text_widget.dart';
+import '../../home/view/home_view.dart';
 import '../../register/view/register_view.dart';
+import '../model/repos/login_repo_imp.dart';
+import '../view_model/cubit/login_cubit.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -29,6 +27,11 @@ class LoginView extends StatelessWidget {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(state.message)));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeView()),
+                (route) => false,
+              );
             } else if (!state.status) {
               ScaffoldMessenger.of(
                 context,
@@ -43,6 +46,7 @@ class LoginView extends StatelessWidget {
         builder: (context, state) {
           var loginCubit = LoginCubit.get(context);
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Form(

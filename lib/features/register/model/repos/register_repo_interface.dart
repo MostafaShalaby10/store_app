@@ -5,5 +5,4 @@ abstract class RegisterRepoInterface {
     required String password,
     required String phone,
   });
-  
 }

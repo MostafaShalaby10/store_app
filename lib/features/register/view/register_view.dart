@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_app/core/utilis/service_locator.dart';
-import 'package:shop_app/core/widgets/custom_button_widget.dart';
-import 'package:shop_app/core/widgets/custom_text_form_field.dart';
-import 'package:shop_app/core/widgets/custom_text_widget.dart';
-import 'package:shop_app/features/register/model/repos/register_repo_imp.dart';
-import 'package:shop_app/features/register/view_model/cubit/register_cubit.dart';
+import '../../../core/utilis/service_locator.dart';
+import '../../../core/widgets/custom_button_widget.dart';
+import '../../../core/widgets/custom_text_form_field.dart';
+import '../../../core/widgets/custom_text_widget.dart';
 import '../../login/view/login_view.dart';
+import '../model/repos/register_repo_imp.dart';
+import '../view_model/cubit/register_cubit.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -49,6 +49,7 @@ class RegisterView extends StatelessWidget {
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Form(

@@ -1,16 +1,16 @@
 import 'data.dart';
 
-class RegisterResponseModel {
+class UserDataModel {
   bool? status;
   String? message;
   Data? data;
 
-  RegisterResponseModel({this.status, this.message, this.data});
+  UserDataModel({this.status, this.message, this.data});
 
-  factory RegisterResponseModel.fromJson(Map<String, dynamic> json) {
-    return RegisterResponseModel(
+  factory UserDataModel.fromJson(Map<String, dynamic> json) {
+    return UserDataModel(
       status: json['status'] as bool?,
-      message: json['message'] as String?,
+      message: json['message'] as dynamic,
       data:
           json['data'] == null
               ? null

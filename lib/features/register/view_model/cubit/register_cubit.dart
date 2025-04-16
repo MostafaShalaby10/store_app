@@ -1,9 +1,7 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:shop_app/features/register/model/models/register_response_model/register_response_model.dart';
 import 'package:shop_app/features/register/model/repos/register_repo_interface.dart';
 
@@ -40,10 +38,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     await _registerRepoInterface
         .register(name: name, email: email, password: password, phone: phone)
         .then((value) {
-          RegisterResponseModel _registerResponseModel = RegisterResponseModel.fromJson(
-            value.data,
+          RegisterResponseModel registerResponseModel =
+              RegisterResponseModel.fromJson(value.data);
+          emit(
+            SuccessfullyRegisterState(
+              status: registerResponseModel.status!,
+              message: registerResponseModel.message!,
+            ),
           );
-          emit(SuccessfullyRegisterState(status :_registerResponseModel.status! , message: _registerResponseModel.message!));
         })
         .catchError((error) {
           emit(ErrorRegisterState(error.toString()));

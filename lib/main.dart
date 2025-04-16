@@ -7,7 +7,7 @@ import 'core/utilis/service_locator.dart';
 import 'core/utilis/shared_prefrences.dart';
 import 'features/login/view/login_view.dart';
 
-void main(List<String> args) async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
   await SharedPrefs.init();
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Shop App',
           theme: ThemeData(primarySwatch: Colors.blue),
           home: const LoginView(),
         );
