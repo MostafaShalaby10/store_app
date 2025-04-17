@@ -22,27 +22,21 @@ class UpdateData extends StatelessWidget {
       create: (context) => UpdateDataCubit(getIt<UpdateDataRepoImp>()),
       child: BlocConsumer<UpdateDataCubit, UpdateDataState>(
         listener: (context, state) {
-            if(state is SuccessfullyUpdateProfileDataState)
-            {
-                if(state.status)
-                {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.message)));
-                  
-                }
-                else if(!state.status)
-                {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.message)));
-                }
-            }else if(state is ErrorUpdateProfileDataState)
-            {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.error)));
+          if (state is SuccessfullyUpdateProfileDataState) {
+            if (state.status) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            } else if (!state.status) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             }
+          } else if (state is ErrorUpdateProfileDataState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.error)));
+          }
         },
         builder: (context, state) {
           nameController.text = userDataModel.data!.name!;
@@ -53,7 +47,7 @@ class UpdateData extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             appBar: AppBar(),
             body: Padding(
-              padding:  const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
                 child: Column(
                   spacing: 7.h,
@@ -76,19 +70,21 @@ class UpdateData extends StatelessWidget {
                       textInputType: TextInputType.phone,
                       controller: phoneController,
                     ),
-                  state is! LoadingUpdateProfileDataState ? SizedBox(
-                      width: double.infinity,
-                      child: CustomButtonWidget(
-                        text: "Update",
-                        onPressed: () {
-                          updateDataCubit.updateDataFunction(
-                            name: nameController.text,
-                            email: emailController.text,
-                            phone: phoneController.text,
-                          );
-                        },
-                      ),
-                    ):const Center(child: CircularProgressIndicator()),
+                    state is! LoadingUpdateProfileDataState
+                        ? SizedBox(
+                          width: double.infinity,
+                          child: CustomButtonWidget(
+                            text: "Update",
+                            onPressed: () {
+                              updateDataCubit.updateDataFunction(
+                                name: nameController.text,
+                                email: emailController.text,
+                                phone: phoneController.text,
+                              );
+                            },
+                          ),
+                        )
+                        : const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),

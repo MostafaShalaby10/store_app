@@ -19,9 +19,7 @@ class Data {
     this.token,
   });
 
-  factory Data.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
       id: json['id'] as int?,
       name: json['name'] as String?,
@@ -34,8 +32,7 @@ class Data {
     );
   }
 
-  Map<String, dynamic>
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,

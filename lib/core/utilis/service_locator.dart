@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shop_app/features/home/model/repos/home_repo_imp.dart';
 import '../../features/login/model/repos/login_repo_imp.dart';
 import '../../features/profile/model/repos/profile_repo_imp.dart';
 import '../../features/register/model/repos/register_repo_imp.dart';
@@ -13,4 +14,5 @@ void setup() {
   getIt.registerLazySingleton(() => RegisterRepoImp(getIt<ApiService>()));
   getIt.registerLazySingleton(() => ProfileRepoImp(getIt<ApiService>()));
   getIt.registerLazySingleton(() => UpdateDataRepoImp(getIt<ApiService>()));
+  getIt.registerLazySingleton(() => HomeRepoImp(getIt<ApiService>()));
 }

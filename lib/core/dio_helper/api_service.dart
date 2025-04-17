@@ -30,11 +30,13 @@ class ApiService {
   Future<Response> putResponse({
     required String endPoint,
     Map<String, dynamic>? query,
-        String? token,
+    String? token,
   }) async {
-    var response = _dio.put(baseUrl + endPoint, data: query ,
-    options: Options(headers: {"Authorization": token})
-     );
+    var response = _dio.put(
+      baseUrl + endPoint,
+      data: query,
+      options: Options(headers: {"Authorization": token}),
+    );
     return response;
   }
 }

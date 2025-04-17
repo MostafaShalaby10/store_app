@@ -1,50 +1,148 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/core/utilis/service_locator.dart';
+import 'package:shop_app/core/widgets/custom_list_item.dart';
+import 'package:shop_app/features/home/model/repos/home_repo_imp.dart';
+import 'package:shop_app/features/profile/view/profile_view.dart';
 
 import '../view_model/cubit/home_cubit.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+// For Bottom Navigation Bar
+class _HomeViewState extends State<HomeView> {
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: [
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: "Favorite",
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Cart",
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+      body: currentIndex == 0 ? const MainPage() : const ProfileView(),
+    );
+  }
+}
+
+// For Home view
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create:
+          (context) => HomeCubit(getIt<HomeRepoImp>())..getHomeDataProducts(),
       child: BlocConsumer<HomeCubit, HomeState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          log(state.toString());
+        },
         builder: (context, state) {
           HomeCubit homeCubit = HomeCubit.get(context);
           return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: homeCubit.currentIndex,
-              onTap: (index) {
-                homeCubit.changeBottomNavBar(index);
-              },
-              items: [
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Home",
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: "Favorite",
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart),
-                  label: "Cart",
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: "Profile",
-                ),
-              ],
-            ),
-            appBar: AppBar(),
-            body: homeCubit.pages[0],
+            body:
+                state is! LoadingGetHomeDataProductsState
+                    ? SafeArea(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            CustomSlider(images: homeCubit.banners),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: homeCubit.products.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                  ),
+                              itemBuilder:
+                                  (context, index) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CustomListItem(
+                                      discount:
+                                          homeCubit.products[index].discount!,
+                                      productImage:
+                                          homeCubit.products[index].image!,
+                                      productName:
+                                          homeCubit.products[index].name!,
+                                      productPrice:
+                                          homeCubit.products[index].price!,
+                                    ),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    : const Center(child: CircularProgressIndicator()),
           );
         },
       ),
+    );
+  }
+}
+
+class CustomSlider extends StatelessWidget {
+  final List images;
+  const CustomSlider({super.key, required this.images});
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 2),
+      ),
+      items:
+          images.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fitWidth,
+                    imageUrl:
+                        i["image"], // ✅ i here represents each item in banners list
+                    placeholder:
+                        (context, url) => const CircularProgressIndicator(),
+                    errorWidget:
+                        (context, url, error) => const Icon(Icons.error),
+                  ),
+                );
+              },
+            );
+          }).toList(),
     );
   }
 }
