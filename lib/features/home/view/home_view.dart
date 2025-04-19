@@ -1,14 +1,15 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
 import 'package:shop_app/core/widgets/custom_list_item.dart';
+import 'package:shop_app/features/cart/model/repos/cart_repo_imp.dart';
 import 'package:shop_app/features/home/model/repos/home_repo_imp.dart';
+import 'package:shop_app/features/products/view/specific_product_view.dart';
 import 'package:shop_app/features/profile/view/profile_view.dart';
 
+import '../../favorite/model/repos/favorite_repo_imp.dart';
 import '../view_model/cubit/home_cubit.dart';
 
 class HomeView extends StatefulWidget {
@@ -62,10 +63,31 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create:
-          (context) => HomeCubit(getIt<HomeRepoImp>())..getHomeDataProducts(),
+          (context) => HomeCubit(
+            getIt<HomeRepoImp>(),
+            getIt<FavoriteRepoImp>(),
+            getIt<CartRepoImp>(),
+          )..getHomeDataProducts(),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
-          log(state.toString());
+          if (state is SuccessfullyAddOrRemoveFavoriteState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          } else if (state is ErrorAddOrRemoveFavoriteState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.error)));
+          }
+          if (state is SuccessfullyAddOrRemoveCartState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          } else if (state is ErrorAddOrRemoveCartState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.error)));
+          }
         },
         builder: (context, state) {
           HomeCubit homeCubit = HomeCubit.get(context);
@@ -86,17 +108,53 @@ class MainPage extends StatelessWidget {
                                     crossAxisCount: 2,
                                   ),
                               itemBuilder:
-                                  (context, index) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomListItem(
-                                      discount:
-                                          homeCubit.products[index].discount!,
-                                      productImage:
-                                          homeCubit.products[index].image!,
-                                      productName:
-                                          homeCubit.products[index].name!,
-                                      productPrice:
-                                          homeCubit.products[index].price!,
+                                  (context, index) => InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (c) => SpecificProductView(
+                                                productId:
+                                                    homeCubit
+                                                        .products[index]
+                                                        .id,
+                                              ),
+                                        ),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomListItem(
+                                        cartIconColor:
+                                            homeCubit.products[index].inCart!
+                                                ? Colors.red
+                                                : Colors.grey,
+                                        favIconColor:
+                                            homeCubit
+                                                    .products[index]
+                                                    .inFavorites!
+                                                ? Colors.red
+                                                : Colors.grey,
+                                        onFavoriteTap: () {
+                                          homeCubit.addOrRemoveFavorite(
+                                            homeCubit.products[index].id,
+                                          );
+                                        },
+                                        onCartTap: () {
+                                          homeCubit.addOrRemoveCart(
+                                            homeCubit.products[index].id,
+                                          );
+                                        },
+                                        discount:
+                                            homeCubit.products[index].discount!,
+                                        productImage:
+                                            homeCubit.products[index].image!,
+                                        productName:
+                                            homeCubit.products[index].name!,
+                                        productPrice:
+                                            homeCubit.products[index].price!,
+                                      ),
                                     ),
                                   ),
                             ),
@@ -134,8 +192,6 @@ class CustomSlider extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                     imageUrl:
                         i["image"], // ✅ i here represents each item in banners list
-                    placeholder:
-                        (context, url) => const CircularProgressIndicator(),
                     errorWidget:
                         (context, url, error) => const Icon(Icons.error),
                   ),

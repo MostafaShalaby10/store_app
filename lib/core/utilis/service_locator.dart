@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:shop_app/features/home/model/repos/home_repo_imp.dart';
+import '../../features/cart/model/repos/cart_repo_imp.dart';
+import '../../features/favorite/model/repos/favorite_repo_imp.dart';
+import '../../features/home/model/repos/home_repo_imp.dart';
 import '../../features/login/model/repos/login_repo_imp.dart';
+import '../../features/products/model/repos/specifc_produc_repo_imp.dart';
 import '../../features/profile/model/repos/profile_repo_imp.dart';
 import '../../features/register/model/repos/register_repo_imp.dart';
 import '../../features/update_data/model/repos/update_data_repo_imp.dart';
@@ -15,4 +18,7 @@ void setup() {
   getIt.registerLazySingleton(() => ProfileRepoImp(getIt<ApiService>()));
   getIt.registerLazySingleton(() => UpdateDataRepoImp(getIt<ApiService>()));
   getIt.registerLazySingleton(() => HomeRepoImp(getIt<ApiService>()));
+  getIt.registerLazySingleton(() => SpecifcProducRepoImp(getIt<ApiService>()));
+  getIt.registerLazySingleton(() => FavoriteRepoImp(getIt<ApiService>()));
+  getIt.registerLazySingleton(() => CartRepoImp(getIt<ApiService>()));
 }

@@ -11,18 +11,26 @@ class CustomListItem extends StatelessWidget {
     required this.productPrice,
     required this.productImage,
     required this.discount,
+    this.onFavoriteTap,
+    this.onCartTap,
+    required this.favIconColor,
+    required this.cartIconColor,
   });
 
   final String productName;
   final String productImage;
   final double productPrice;
   final int discount;
+  final Function()? onFavoriteTap;
+  final Function()? onCartTap;
+  final Color favIconColor;
+  final Color cartIconColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // padding: const EdgeInsets.all(15),
-      height: MediaQuery.of(context).size.height * .35,
+      height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width * .4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
@@ -36,17 +44,14 @@ class CustomListItem extends StatelessWidget {
               children: [
                 CachedNetworkImage(
                   width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
                   // height: MediaQuery.of(context).size.height * .5,
                   imageUrl: productImage,
-                  placeholder:
-                      (context, url) => const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
 
                 Container(
                   padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(color: Colors.green[300]),
+                  decoration: BoxDecoration(color: Colors.teal[100]),
                   child: CustomTextWidget(
                     text: "Discount $discount%",
                     fontSize: 14,
@@ -76,12 +81,12 @@ class CustomListItem extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.favorite_border_outlined),
+                      onPressed: onFavoriteTap,
+                      icon: Icon(Icons.favorite, color: favIconColor),
                     ),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.add_shopping_cart_outlined),
+                      onPressed: onCartTap,
+                      icon: Icon(Icons.add_shopping_cart, color: cartIconColor),
                     ),
                   ],
                 ),

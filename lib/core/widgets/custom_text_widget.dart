@@ -23,6 +23,7 @@ class CustomTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       textAlign: textAlign ?? TextAlign.start,
+      textDirection: TextDirection.rtl,
       overflow: TextOverflow.ellipsis,
       text,
       maxLines: maxLines ?? 2,
