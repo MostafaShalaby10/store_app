@@ -1,8 +1,10 @@
 import 'package:device_preview_plus/device_preview_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/features/cart/view/cart_view.dart';
+import 'package:shop_app/features/theme/view_model/cubit/theme_cubit.dart';
 
 import 'core/utilis/service_locator.dart';
 import 'core/utilis/shared_prefrences.dart';
@@ -13,7 +15,14 @@ void main() async {
   setup();
   await SharedPrefs.init();
   runApp(
-    DevicePreview(enabled: !kReleaseMode, builder: (context) => const MyApp()),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder:
+          (context) => BlocProvider(
+            create: (context) => ThemeCubit(),
+            child: const MyApp(),
+          ),
+    ),
   );
 }
 
@@ -22,29 +31,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (_, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Shop App',
-          theme: ThemeData(
-            primarySwatch: Colors.teal,
-            scaffoldBackgroundColor: Colors.white,
-            appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              iconTheme: IconThemeData(color: Colors.black),
-              titleTextStyle: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          home: const LoginView(),
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, child) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Shop App',
+              theme: ThemeCubit.get(context).theme,
+              home: const LoginView(),
+            );
+          },
         );
       },
     );

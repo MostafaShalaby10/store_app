@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
+import 'package:shop_app/core/widgets/custom_button_widget.dart';
 import 'package:shop_app/core/widgets/custom_text_widget.dart';
 import 'package:shop_app/features/profile/model/repos/profile_repo_imp.dart';
 import 'package:shop_app/features/profile/view_model/cubit/profile_cubit.dart';
+import 'package:shop_app/features/theme/view_model/cubit/theme_cubit.dart';
 
 import '../../update_data/view/update_data.dart';
 
@@ -97,6 +99,13 @@ class ProfileView extends StatelessWidget {
                               ),
                             ],
                           ),
+                          CustomButtonWidget(
+                            text: "Change Theme",
+                            onPressed: () {
+                              context.read<ThemeCubit>().changeTheme();
+                            },
+                          ),
+                          CustomButtonWidget(text: "Logout", onPressed: () {}),
                         ],
                       ),
                     )
