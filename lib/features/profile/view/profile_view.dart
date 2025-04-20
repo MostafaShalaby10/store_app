@@ -33,6 +33,7 @@ class ProfileView extends StatelessWidget {
         builder: (context, state) {
           ProfileCubit profileCubit = ProfileCubit.get(context);
           return Scaffold(
+            appBar: AppBar(),
             body:
                 state is! LoadingGetProfileDataState
                     ? Padding(
@@ -41,6 +42,7 @@ class ProfileView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             spacing: 10.w,
                             children: [
                               CircleAvatar(
@@ -61,7 +63,7 @@ class ProfileView extends StatelessWidget {
                                     CustomTextWidget(
                                       text:
                                           profileCubit.profileModel.data!.name!,
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     CustomTextWidget(

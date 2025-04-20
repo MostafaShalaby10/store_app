@@ -2,6 +2,7 @@ import 'package:device_preview_plus/device_preview_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_app/features/cart/view/cart_view.dart';
 
 import 'core/utilis/service_locator.dart';
 import 'core/utilis/shared_prefrences.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.teal,
             scaffoldBackgroundColor: Colors.white,
-            appBarTheme:  const AppBarTheme(
+            appBarTheme: const AppBarTheme(
               backgroundColor: Colors.white,
               elevation: 0,
               iconTheme: IconThemeData(color: Colors.black),
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
-            )
+            ),
           ),
           home: const LoginView(),
         );

@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
 import 'package:shop_app/core/widgets/custom_list_item.dart';
 import 'package:shop_app/features/cart/model/repos/cart_repo_imp.dart';
+import 'package:shop_app/features/cart/view/cart_view.dart';
+import 'package:shop_app/features/favorite/view/favorite_view.dart';
 import 'package:shop_app/features/home/model/repos/home_repo_imp.dart';
 import 'package:shop_app/features/products/view/specific_product_view.dart';
 import 'package:shop_app/features/profile/view/profile_view.dart';
@@ -22,7 +24,7 @@ class HomeView extends StatefulWidget {
 // For Bottom Navigation Bar
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
-
+  List<Widget> pages = [const MainPage() , const FavoriteView(), const CartView(), const ProfileView()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +52,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: currentIndex == 0 ? const MainPage() : const ProfileView(),
+      body: pages[currentIndex],
     );
   }
 }

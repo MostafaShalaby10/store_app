@@ -26,7 +26,6 @@ class HomeCubit extends Cubit<HomeState> {
   List<dynamic> products = [];
   List<dynamic> banners = [];
 
-
   Future getHomeDataProducts() async {
     emit(LoadingGetHomeDataProductsState());
     _homeRepoInterface
@@ -51,7 +50,6 @@ class HomeCubit extends Cubit<HomeState> {
     _favoriteRepoInterface
         .addOrRemoveFavorite(productId)
         .then((value) {
-        
           emit(
             SuccessfullyAddOrRemoveFavoriteState(
               value.data["status"],
@@ -70,7 +68,6 @@ class HomeCubit extends Cubit<HomeState> {
     _cartRepoInterface
         .addOrRemoveCart(productId)
         .then((value) {
-           
           emit(
             SuccessfullyAddOrRemoveCartState(
               value.data["status"],

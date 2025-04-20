@@ -1,4 +1,4 @@
-class Data {
+class Product {
   num? id;
   num? price;
   num? oldPrice;
@@ -6,11 +6,11 @@ class Data {
   String? image;
   String? name;
   String? description;
+  List<String>? images;
   bool? inFavorites;
   bool? inCart;
-  List<dynamic>? images;
 
-  Data({
+  Product({
     this.id,
     this.price,
     this.oldPrice,
@@ -18,13 +18,15 @@ class Data {
     this.image,
     this.name,
     this.description,
+    this.images,
     this.inFavorites,
     this.inCart,
-    this.images,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory Product.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return Product(
       id: num.tryParse(json['id'].toString()),
       price: num.tryParse(json['price'].toString()),
       oldPrice: num.tryParse(json['old_price'].toString()),
@@ -32,13 +34,14 @@ class Data {
       image: json['image']?.toString(),
       name: json['name']?.toString(),
       description: json['description']?.toString(),
+      images: List<String>.from(json['images'] ?? []),
       inFavorites: json['in_favorites']?.toString().contains("true"),
       inCart: json['in_cart']?.toString().contains("true"),
-      images: List<dynamic>.from(json['images'] ?? []),
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic>
+  toJson() {
     return {
       if (id != null) 'id': id,
       if (price != null) 'price': price,
@@ -47,9 +50,9 @@ class Data {
       if (image != null) 'image': image,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
+      if (images != null) 'images': images,
       if (inFavorites != null) 'in_favorites': inFavorites,
       if (inCart != null) 'in_cart': inCart,
-      if (images != null) 'images': images,
     };
   }
 }

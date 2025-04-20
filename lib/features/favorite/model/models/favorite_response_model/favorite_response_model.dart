@@ -1,14 +1,14 @@
 import 'data.dart';
 
-class SpecificProductModel {
+class FavoriteResponseModel {
   bool? status;
   dynamic message;
   Data? data;
 
-  SpecificProductModel({this.status, this.message, this.data});
+  FavoriteResponseModel({this.status, this.message, this.data});
 
-  factory SpecificProductModel.fromJson(Map<String, dynamic> json) {
-    return SpecificProductModel(
+  factory FavoriteResponseModel.fromJson(Map<String, dynamic> json) {
+    return FavoriteResponseModel(
       status: json['status']?.toString().contains("true"),
       message: json['message'],
       data:

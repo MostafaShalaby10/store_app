@@ -20,8 +20,9 @@ class CartRepoImp implements CartRepoInterface {
 
   @override
   Future<Response> getCart() async {
-    return await _apiService.getResponse(endPoint: "carts" , token: SharedPrefs.getData(key: "token"));
+    return await _apiService.getResponse(
+      endPoint: "carts",
+      token: SharedPrefs.getData(key: "token"),
+    );
   }
-
- 
 }

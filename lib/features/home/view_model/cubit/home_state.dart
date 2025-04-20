@@ -42,4 +42,3 @@ final class ErrorAddOrRemoveCartState extends HomeState {
   final String error;
   ErrorAddOrRemoveCartState(this.error);
 }
-

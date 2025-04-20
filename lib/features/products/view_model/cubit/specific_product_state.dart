@@ -14,6 +14,6 @@ final class SuccessfullyGetSpecifcDataState extends SpecificProductState {
 }
 
 final class ErrorGetSpecifcDataState extends SpecificProductState {
-  final String error; 
+  final String error;
   ErrorGetSpecifcDataState({required this.error});
 }
