@@ -1,11 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_app/core/contsants/colors.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
+import 'package:shop_app/core/utilis/shared_prefrences.dart';
 import 'package:shop_app/core/widgets/custom_button_widget.dart';
 import 'package:shop_app/core/widgets/custom_text_widget.dart';
 import 'package:shop_app/features/authentication/login/view/login_view.dart';
@@ -20,7 +18,6 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isdark = false;
     return BlocProvider(
       create:
           (context) => ProfileCubit(getIt<ProfileRepoImp>())..getProfileData(),
@@ -36,7 +33,6 @@ class ProfileView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          bool isDark = false;
           ProfileCubit profileCubit = ProfileCubit.get(context);
           return Scaffold(
             appBar: AppBar(),
@@ -122,13 +118,14 @@ class ProfileView extends StatelessWidget {
                                                 fontWeight: FontWeight.w600,
                                               ),
                                               Switch(
-                                                value: isDark,
-                                                onChanged: (Value) {
-                                                  setState() {
-                                                    isDark = !isDark;
-                                                  }
-
-                                                  isDark = Value;
+                                                value:
+                                                    SharedPrefs.getData(
+                                                              key: "dark",
+                                                            ) !=
+                                                            null
+                                                        ? true
+                                                        : false,
+                                                onChanged: (value) {
                                                   context
                                                       .read<ThemeCubit>()
                                                       .changeTheme();
