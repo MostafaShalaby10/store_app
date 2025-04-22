@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:shop_app/core/dio_helper/api_constants.dart';
+import 'package:shop_app/core/contsants/api_constants.dart';
 
 class ApiService {
   final Dio _dio = Dio();

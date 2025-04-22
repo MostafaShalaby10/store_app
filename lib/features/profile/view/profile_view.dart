@@ -1,12 +1,17 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_app/core/contsants/colors.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
 import 'package:shop_app/core/widgets/custom_button_widget.dart';
 import 'package:shop_app/core/widgets/custom_text_widget.dart';
+import 'package:shop_app/features/authentication/login/view/login_view.dart';
 import 'package:shop_app/features/profile/model/repos/profile_repo_imp.dart';
 import 'package:shop_app/features/profile/view_model/cubit/profile_cubit.dart';
-import 'package:shop_app/features/theme/view_model/cubit/theme_cubit.dart';
+import 'package:shop_app/core/theme/view_model/cubit/theme_cubit.dart';
 
 import '../../update_data/view/update_data.dart';
 
@@ -15,24 +20,23 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isdark = false;
     return BlocProvider(
       create:
           (context) => ProfileCubit(getIt<ProfileRepoImp>())..getProfileData(),
       child: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          if (state is SuccessfullyGetProfileDataState) {
-            if (state.status) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
-            } else if (!state.status) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
-            }
+          log(state.toString());
+          if (state is SuccessfullyLogOutState) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginView()),
+              (predicate) => false,
+            );
           }
         },
         builder: (context, state) {
+          bool isDark = false;
           ProfileCubit profileCubit = ProfileCubit.get(context);
           return Scaffold(
             appBar: AppBar(),
@@ -102,10 +106,50 @@ class ProfileView extends StatelessWidget {
                           CustomButtonWidget(
                             text: "Change Theme",
                             onPressed: () {
-                              context.read<ThemeCubit>().changeTheme();
+                              // context.read<ThemeCubit>().changeTheme();
+                              showModalBottomSheet(
+                                context: context,
+                                builder:
+                                    (context) => StatefulBuilder(
+                                      builder:
+                                          (contetx, setState) => Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              const CustomTextWidget(
+                                                text: "Dark Mode",
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              Switch(
+                                                value: isDark,
+                                                onChanged: (Value) {
+                                                  setState() {
+                                                    isDark = !isDark;
+                                                  }
+
+                                                  isDark = Value;
+                                                  context
+                                                      .read<ThemeCubit>()
+                                                      .changeTheme();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                    ),
+                              );
                             },
                           ),
-                          CustomButtonWidget(text: "Logout", onPressed: () {}),
+                          state is! LoadingLogOutState
+                              ? CustomButtonWidget(
+                                text: "Logout",
+                                onPressed: () {
+                                  profileCubit.logout();
+                                },
+                              )
+                              : const Center(
+                                child: CircularProgressIndicator(),
+                              ),
                         ],
                       ),
                     )

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_app/core/contsants/colors.dart';
 
 class CustomTextWidget extends StatelessWidget {
   const CustomTextWidget({
     super.key,
     required this.text,
     required this.fontSize,
-    this.textColor = Colors.black,
+    this.textColor,
     this.textAlign,
     required this.fontWeight,
     this.maxLines,
@@ -27,8 +28,12 @@ class CustomTextWidget extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       text,
       maxLines: maxLines ?? 2,
-      style: TextStyle(
-        color: textColor,
+      // style: TextStyle(
+      //   color: textColor??Colors.black,
+      //   fontSize: fontSize.sp,
+      //   fontWeight: fontWeight,
+      // ),
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
         fontSize: fontSize.sp,
         fontWeight: fontWeight,
       ),

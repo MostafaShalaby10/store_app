@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^9.1.0
   flutter_screenutil: ^5.9.3
   get_it: ^8.0.3
+  image_picker: ^1.1.2
   meta: ^1.16.0
   shared_preferences: ^2.5.3
 

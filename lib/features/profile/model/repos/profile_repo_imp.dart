@@ -13,4 +13,11 @@ class ProfileRepoImp implements ProfileRepoInterface {
       token: SharedPrefs.getData(key: "token"),
     );
   }
+
+  @override
+  Future logout() async{
+   var response = await _apiService.postResponse(endPoint: "logout" , token: SharedPrefs.getData(key: "token"));
+   await SharedPrefs.removeData(key: "token");
+    return response;
+  }
 }

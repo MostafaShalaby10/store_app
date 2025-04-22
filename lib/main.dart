@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/features/cart/view/cart_view.dart';
-import 'package:shop_app/features/theme/view_model/cubit/theme_cubit.dart';
+import 'package:shop_app/core/theme/view_model/cubit/theme_cubit.dart';
 
 import 'core/utilis/service_locator.dart';
 import 'core/utilis/shared_prefrences.dart';
-import 'features/login/view/login_view.dart';
+import 'features/authentication/login/view/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,11 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Shop App',
-              theme: ThemeCubit.get(context).theme,
+              themeMode: ThemeCubit.get(context).themeMode,
+              theme: ThemeCubit.get(context).lightTheme,
+
+              darkTheme: ThemeCubit.get(context).darkTheme,
+
               home: const LoginView(),
             );
           },

@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:shop_app/features/profile/model/models/user_data/user_data.dart';
 import 'package:shop_app/features/profile/model/repos/profile_repo_interface.dart';
@@ -18,15 +22,29 @@ class ProfileCubit extends Cubit<ProfileState> {
         .getProfileData()
         .then((value) {
           profileModel = UserDataModel.fromJson(value.data);
+          emit(SuccessfullyGetProfileDataState(status: profileModel.status!));
+        })
+        .catchError((error) {
+          log(error.toString());
+          emit(ErrorGetProfileDataState(error.toString()));
+        });
+  }
+
+  Future logout() {
+    emit(LoadingLogOutState());
+    return _profileRepoInterface
+        .logout()
+        .then((value) {
           emit(
-            SuccessfullyGetProfileDataState(
-              message: profileModel.message!,
-              status: profileModel.status!,
+            SuccessfullyLogOutState(
+              status: value.data["status"],
+              message: value.data["message"],
             ),
           );
         })
         .catchError((error) {
-          emit(ErrorGetProfileDataState(error.toString()));
+          log(error.toString());
+          emit(ErrorLogOutState(error.toString()));
         });
   }
 }

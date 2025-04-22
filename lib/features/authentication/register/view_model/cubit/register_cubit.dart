@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/features/register/model/models/register_response_model/register_response_model.dart';
-import 'package:shop_app/features/register/model/repos/register_repo_interface.dart';
+import 'package:shop_app/features/authentication/register/model/models/register_response_model/register_response_model.dart';
+import 'package:shop_app/features/authentication/register/model/repos/register_repo_interface.dart';
 
 part 'register_state.dart';
 

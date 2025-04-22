@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shop_app/core/utilis/shared_prefrences.dart';
-import 'package:shop_app/features/login/model/models/login_response_model/login_response_model.dart';
-import 'package:shop_app/features/login/model/repos/login_repo_interface.dart';
+import 'package:shop_app/features/authentication/login/model/models/login_response_model/login_response_model.dart';
+import 'package:shop_app/features/authentication/login/model/repos/login_repo_interface.dart';
 
 part 'login_state.dart';
 

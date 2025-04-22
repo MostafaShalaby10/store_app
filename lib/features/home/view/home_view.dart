@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
 import 'package:shop_app/core/widgets/custom_list_item.dart';
 import 'package:shop_app/features/cart/model/repos/cart_repo_imp.dart';
@@ -24,7 +25,12 @@ class HomeView extends StatefulWidget {
 // For Bottom Navigation Bar
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
-  List<Widget> pages = [const MainPage() , const FavoriteView(), const CartView(), const ProfileView()];
+  List<Widget> pages = [
+    const MainPage(),
+    const FavoriteView(),
+    const CartView(),
+    const ProfileView(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +166,7 @@ class MainPage extends StatelessWidget {
                                     ),
                                   ),
                             ),
+                            
                           ],
                         ),
                       ),
@@ -190,12 +197,13 @@ class CustomSlider extends StatelessWidget {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.fitWidth,
-                    imageUrl:
-                        i["image"], // ✅ i here represents each item in banners list
-                    errorWidget:
-                        (context, url, error) => const Icon(Icons.error),
+                  child: Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          i["image"], // ✅ i here represents each item in banners list
+                      errorWidget:
+                          (context, url, error) => const Icon(Icons.error),
+                    ),
                   ),
                 );
               },
