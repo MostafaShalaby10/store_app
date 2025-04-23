@@ -35,12 +35,22 @@ class ProfileView extends StatelessWidget {
         builder: (context, state) {
           ProfileCubit profileCubit = ProfileCubit.get(context);
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    profileCubit.logout();
+                  },
+                  icon: Icon(Icons.logout, color: Colors.red[900]),
+                ),
+              ],
+            ),
             body:
                 state is! LoadingGetProfileDataState
                     ? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
+                        spacing: 20.h,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
@@ -99,54 +109,65 @@ class ProfileView extends StatelessWidget {
                               ),
                             ],
                           ),
-                          CustomButtonWidget(
-                            text: "Change Theme",
-                            onPressed: () {
-                              // context.read<ThemeCubit>().changeTheme();
-                              showModalBottomSheet(
-                                context: context,
-                                builder:
-                                    (context) => StatefulBuilder(
-                                      builder:
-                                          (contetx, setState) => Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              const CustomTextWidget(
-                                                text: "Dark Mode",
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              Switch(
-                                                value:
-                                                    SharedPrefs.getData(
-                                                              key: "dark",
-                                                            ) !=
-                                                            null
-                                                        ? true
-                                                        : false,
-                                                onChanged: (value) {
-                                                  context
-                                                      .read<ThemeCubit>()
-                                                      .changeTheme();
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                    ),
-                              );
+
+                          InkWell(
+                            onTap: () {
+                              {
+                                // context.read<ThemeCubit>().changeTheme();
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder:
+                                      (context) => StatefulBuilder(
+                                        builder:
+                                            (contetx, setState) => Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                const CustomTextWidget(
+                                                  text: "Dark Mode",
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                Switch(
+                                                  value:
+                                                      SharedPrefs.getData(
+                                                                key: "dark",
+                                                              ) !=
+                                                              null
+                                                          ? true
+                                                          : false,
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<ThemeCubit>()
+                                                        .changeTheme();
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                      ),
+                                );
+                              }
+                              ;
                             },
-                          ),
-                          state is! LoadingLogOutState
-                              ? CustomButtonWidget(
-                                text: "Logout",
-                                onPressed: () {
-                                  profileCubit.logout();
-                                },
-                              )
-                              : const Center(
-                                child: CircularProgressIndicator(),
+                            child: Container(
+                              padding: const EdgeInsets.all(15),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.teal[300],
+
+                                borderRadius: BorderRadius.circular(10.r),
                               ),
+                              child: const Align(
+                                alignment: Alignment.centerLeft,
+                                child: CustomTextWidget(
+                                  textAlign: TextAlign.start,
+                                  text: "Change Theme",
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     )

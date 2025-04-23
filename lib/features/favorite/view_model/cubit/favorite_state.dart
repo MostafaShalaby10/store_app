@@ -17,4 +17,3 @@ final class ErrorGetFavorites extends FavoriteState {
   final String error;
   ErrorGetFavorites(this.error);
 }
-

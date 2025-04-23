@@ -110,7 +110,7 @@ class LoginView extends StatelessWidget {
                               child: CustomButtonWidget(
                                 text: "Login",
                                 onPressed: () {
-                                      FocusScope.of(context).unfocus();
+                                  FocusScope.of(context).unfocus();
                                   if (formKey.currentState!.validate()) {
                                     loginCubit.loginFunction(
                                       email: emailController.text,

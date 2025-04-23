@@ -5,7 +5,3 @@ Color darkTextColor = Colors.white;
 
 Color lightScaffoldBackgroundColor = Colors.white;
 Color darkScaffoldBackgroundColor = Colors.black;
-
-
-
-

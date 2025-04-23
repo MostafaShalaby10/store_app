@@ -13,9 +13,9 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit(this._favoriteRepoInterface) : super(FavoriteInitial());
   static FavoriteCubit get(context) => BlocProvider.of(context);
 
- late FavoriteResponseModel favoriteResponseModel ; 
+  late FavoriteResponseModel favoriteResponseModel;
 
- Future getFavorites() async {
+  Future getFavorites() async {
     emit(LoadingGetFavorites());
     await _favoriteRepoInterface
         .getFavorites()

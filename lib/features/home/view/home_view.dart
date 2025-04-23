@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app/core/utilis/service_locator.dart';
 import 'package:shop_app/core/widgets/custom_list_item.dart';
+import 'package:shop_app/core/widgets/custom_text_widget.dart';
 import 'package:shop_app/features/cart/model/repos/cart_repo_imp.dart';
 import 'package:shop_app/features/cart/view/cart_view.dart';
 import 'package:shop_app/features/favorite/view/favorite_view.dart';
@@ -100,75 +100,77 @@ class MainPage extends StatelessWidget {
         builder: (context, state) {
           HomeCubit homeCubit = HomeCubit.get(context);
           return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+
+              title: const CustomTextWidget(
+                text: "Home Page",
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             body:
                 state is! LoadingGetHomeDataProductsState
-                    ? SafeArea(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            CustomSlider(images: homeCubit.banners),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: homeCubit.products.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                  ),
-                              itemBuilder:
-                                  (context, index) => InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (c) => SpecificProductView(
-                                                productId:
-                                                    homeCubit
-                                                        .products[index]
-                                                        .id,
-                                              ),
-                                        ),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CustomListItem(
-                                        cartIconColor:
-                                            homeCubit.products[index].inCart!
-                                                ? Colors.red
-                                                : Colors.grey,
-                                        favIconColor:
-                                            homeCubit
-                                                    .products[index]
-                                                    .inFavorites!
-                                                ? Colors.red
-                                                : Colors.grey,
-                                        onFavoriteTap: () {
-                                          homeCubit.addOrRemoveFavorite(
-                                            homeCubit.products[index].id,
-                                          );
-                                        },
-                                        onCartTap: () {
-                                          homeCubit.addOrRemoveCart(
-                                            homeCubit.products[index].id,
-                                          );
-                                        },
-                                        discount:
-                                            homeCubit.products[index].discount!,
-                                        productImage:
-                                            homeCubit.products[index].image!,
-                                        productName:
-                                            homeCubit.products[index].name!,
-                                        productPrice:
-                                            homeCubit.products[index].price!,
+                    ? SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          CustomSlider(images: homeCubit.banners),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: homeCubit.products.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                ),
+                            itemBuilder:
+                                (context, index) => InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (c) => SpecificProductView(
+                                              productId:
+                                                  homeCubit.products[index].id,
+                                            ),
                                       ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CustomListItem(
+                                      cartIconColor:
+                                          homeCubit.products[index].inCart!
+                                              ? Colors.red
+                                              : Colors.grey,
+                                      favIconColor:
+                                          homeCubit.products[index].inFavorites!
+                                              ? Colors.red
+                                              : Colors.grey,
+                                      onFavoriteTap: () {
+                                        homeCubit.addOrRemoveFavorite(
+                                          homeCubit.products[index].id,
+                                        );
+                                      },
+                                      onCartTap: () {
+                                        homeCubit.addOrRemoveCart(
+                                          homeCubit.products[index].id,
+                                        );
+                                      },
+                                      discount:
+                                          homeCubit.products[index].discount!,
+                                      productImage:
+                                          homeCubit.products[index].image!,
+                                      productName:
+                                          homeCubit.products[index].name!,
+                                      productPrice:
+                                          homeCubit.products[index].price!,
                                     ),
                                   ),
-                            ),
-                            
-                          ],
-                        ),
+                                ),
+                          ),
+                        ],
                       ),
                     )
                     : const Center(child: CircularProgressIndicator()),

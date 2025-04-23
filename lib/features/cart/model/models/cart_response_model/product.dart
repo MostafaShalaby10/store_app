@@ -23,9 +23,7 @@ class Product {
     this.inCart,
   });
 
-  factory Product.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: num.tryParse(json['id'].toString()),
       price: num.tryParse(json['price'].toString()),
@@ -40,8 +38,7 @@ class Product {
     );
   }
 
-  Map<String, dynamic>
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
       if (price != null) 'price': price,
